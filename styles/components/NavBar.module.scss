@@ -1,0 +1,11 @@
+.container {
+    display: grid;
+    grid-template-columns: 99% 1%;
+    padding: 2rem;
+
+    background-color: black;
+
+    * {
+        color: white;
+    }
+}
