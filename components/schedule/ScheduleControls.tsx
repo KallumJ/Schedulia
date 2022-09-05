@@ -3,16 +3,16 @@ import styles from "../../styles/components/schedule/ScheduleControls.module.scs
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
 
 interface ScheduleControlsProps {
-    currentDate: Date,
+    currentMonth: Date,
     onIncrementMonth: () => void;
     onDecrementMonth: () => void;
 }
 
-export default function ScheduleControls({ onIncrementMonth, onDecrementMonth, currentDate }: ScheduleControlsProps) {
+export default function ScheduleControls({ onIncrementMonth, onDecrementMonth, currentMonth }: ScheduleControlsProps) {
     return (
         <div className={styles.container}>
             <button onClick={() => onIncrementMonth()}><FaArrowLeft /></button>
-            <h4 className={styles.date}>{DateUtils.getMonthString(currentDate)}</h4>
+            <h4 className={styles.date}>{DateUtils.getMonthString(currentMonth)}</h4>
             <button onClick={() => onDecrementMonth()}><FaArrowRight /></button>
         </div>
     )

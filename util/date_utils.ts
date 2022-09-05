@@ -9,4 +9,9 @@ export default class DateUtils {
     public static getMonthString(date: Date): string {
         return `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
     }
+
+    public static isDateToday(date: Date): boolean {
+        const moment = new Date();
+        return moment.toDateString() === date.toDateString();
+    }
 }

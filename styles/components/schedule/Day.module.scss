@@ -1,0 +1,11 @@
+.day_card {
+    background-color: white;
+    height: 200px;
+    border: 1px lightgray solid;
+    text-align: center;
+
+    .day_number {
+        color: black;
+        padding: .5em;
+    }
+}
