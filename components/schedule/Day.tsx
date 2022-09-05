@@ -10,7 +10,7 @@ export default function Day({ date }: DayProps) {
 
     return (
         <div className={styles.day_card}>
-            <h4 className={styles.day_number} style={isToday ? { backgroundColor: "lightblue" } : {}}>{date.getDate()}</h4>
+            <p className={styles.day_number} style={isToday ? { backgroundColor: "lightblue" } : {}}>{date.getDate()}</p>
         </div>
     )
 }
