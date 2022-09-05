@@ -1,0 +1,21 @@
+.container {
+    display: grid;
+    width: 20%;
+    grid-template-columns: .1fr .5fr .1fr;
+    padding: 1em;
+
+    h3 {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    button {
+        padding: 0.2em;
+        background-color: white;
+        border: 1px lightslategray solid;
+    }
+
+    button:active {
+        background-color: lightgray;
+    }
+}
