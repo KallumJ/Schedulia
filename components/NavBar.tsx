@@ -1,5 +1,5 @@
 import { MdAccountBox } from "react-icons/md"
-import styles from "../../styles/components/NavBar.module.scss"
+import styles from "../styles/components/NavBar.module.scss"
 import Link from "next/link"
 
 export default function NavBar() {
