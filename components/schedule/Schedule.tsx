@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ScheduleControls from './ScheduleControls';
-import DayGrid from './DayGrid';
+import Month from './Month';
 
 
 export default function Schedule() {
@@ -27,7 +27,7 @@ export default function Schedule() {
     return (
         <div>
             <ScheduleControls onIncrementMonth={incrementMonth} onDecrementMonth={decrementMonth} currentMonth={currentDate} />
-            <DayGrid month={currentDate} />
+            <Month month={currentDate} />
         </div>
     )
 }
