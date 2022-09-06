@@ -1,5 +1,6 @@
 import styles from "../../styles/components/schedule/Day.module.scss";
 import DateUtils from "../../util/date_utils"
+import MediaEvent from "./MediaEvent"
 
 interface DayProps {
     date: Date
@@ -10,7 +11,8 @@ export default function Day({ date }: DayProps) {
 
     return (
         <div className={styles.day_card}>
-            <p className={styles.day_number} style={isToday ? { backgroundColor: "lightblue" } : {}}>{date.getDate()}</p>
+            <span className={styles.day_number_container}><p className={styles.day_number} style={isToday ? { backgroundColor: "lightblue" } : {}}>{date.getDate()}</p></span>
+            <MediaEvent />
         </div>
     )
 }
