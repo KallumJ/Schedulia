@@ -12,7 +12,7 @@ export default function Day({ date }: DayProps) {
     return (
         <div className={styles.day_card}>
             <span className={styles.day_number_container}><p className={styles.day_number} style={isToday ? { backgroundColor: "lightblue" } : {}}>{date.getDate()}</p></span>
-            <MediaEvent />
+
         </div>
     )
 }
