@@ -15,7 +15,7 @@ export default function Month({ month }: MonthProps) {
     }
 
     const fadeAnim = keyframes`${fadeIn}`;
-    const FadeInDiv = styled.div`animation: 1s ${fadeAnim};`;
+    const FadeInDiv = styled.div`animation: 0.5s ${fadeAnim};`;
 
     return (
         <FadeInDiv className={styles.grid}>
