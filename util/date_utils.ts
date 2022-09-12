@@ -1,4 +1,7 @@
 export default class DateUtils {
+    static isValidDateString(date: string) {
+        return new Date(date).toString() !== 'Invalid Date';
+    }
     public static getDaysInMonth(date: Date): number {
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
@@ -13,5 +16,9 @@ export default class DateUtils {
     public static isDateToday(date: Date): boolean {
         const moment = new Date();
         return moment.toDateString() === date.toDateString();
+    }
+
+    public static formatDate(date: Date): string {
+        return date.toISOString().slice(0, 10);
     }
 }
