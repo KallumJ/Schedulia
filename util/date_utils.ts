@@ -19,6 +19,6 @@ export default class DateUtils {
     }
 
     public static formatDate(date: Date): string {
-        return date.toISOString().slice(0, 10);
+        return date.toLocaleDateString('en-CA');
     }
 }
