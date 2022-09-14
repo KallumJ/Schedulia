@@ -17,6 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(400).json({ message: "Please provide a valid date as a path parameter, e.g /2022-09" })
         return;
     }
+    const events = await MediaSources.getMediaEvents(date);
 
-    res.status(200).json(await MediaSources.getMediaEvents(date));
+    res.status(200).json(events);
 }
