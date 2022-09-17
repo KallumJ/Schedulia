@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import MediaSources from '../../../data/sources/media_sources';
 import DateUtils from '../../../util/date_utils';
+import cacheData from "memory-cache"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { query: { month } } = req;
@@ -17,7 +18,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(400).json({ message: "Please provide a valid date as a path parameter, e.g /2022-09" })
         return;
     }
-    const events = await MediaSources.getMediaEvents(date);
 
-    res.status(200).json(events);
+    let data = cacheData.get(date);
+    if (!data) {
+        const events = await MediaSources.getMediaEvents(date);
+        cacheData.put(date, events);
+        data = events;
+    }
+
+    res.status(200).json(data);
 }
