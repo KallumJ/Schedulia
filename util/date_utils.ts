@@ -14,8 +14,11 @@ export default class DateUtils {
     }
 
     public static isDateToday(date: Date): boolean {
-        const moment = new Date();
-        return moment.toDateString() === date.toDateString();
+        return this.areDatesEqual(date, new Date());
+    }
+
+    public static areDatesEqual(date1: Date, date2: Date): boolean {
+        return date1.toDateString() === date2.toDateString();
     }
 
     public static formatDate(date: Date): string {

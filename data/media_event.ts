@@ -1,6 +1,6 @@
 export interface MediaEvent {
     title?: string,
-    releaseDate?: Date,
+    releaseDate?: string,
     description?: string,
     image?: string
 }

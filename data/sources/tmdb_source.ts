@@ -37,7 +37,7 @@ export default class TMDBSource implements MediaSource {
                     const event: MediaEvent = {
                         title: movie.title,
                         description: movie.overview,
-                        releaseDate: new Date(movie.release_date || ""),
+                        releaseDate: movie.release_date,
                         image: `${TMDBSource.IMAGE_URL}${movie.backdrop_path}`
                     }
 
