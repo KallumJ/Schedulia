@@ -5,7 +5,6 @@ import { MovieDb } from "moviedb-promise";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
-    private static readonly POPULARITY_THRESHOLD: number = 30;
     private static readonly IMAGE_URL: string = "https://image.tmdb.org/t/p/original"
 
     getMediaSourceName(): string {
@@ -32,7 +31,7 @@ export default class TMDBSource implements MediaSource {
 
             totalPages = response.total_pages || totalPages;
             if (results != undefined) {
-                results = results.filter(result => result.popularity && result.popularity > TMDBSource.POPULARITY_THRESHOLD)
+                results = results.filter(result => result.popularity && result.popularity > TMDBSource.getPopularityThreshold(response.total_results))
                 results.forEach(movie => {
                     const event: MediaEvent = {
                         title: movie.title,
@@ -51,6 +50,13 @@ export default class TMDBSource implements MediaSource {
         }
 
         return mediaEvents
+    }
+    static getPopularityThreshold(total_results: number | undefined) {
+        if (total_results && total_results > 100) {
+            return 30;
+        } else {
+            return 4;
+        }
     }
 
 }
