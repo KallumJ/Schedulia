@@ -21,10 +21,10 @@ export default function Month({ month, events }: MonthProps) {
         const daysEvents = events.filter(event => event.releaseDate && DateUtils.areDatesEqual(new Date(event.releaseDate), date))
         days.push(<Day key={date.getDate()} date={date} events={daysEvents} />);
     }
-    
+
     return (
         <FadeInDiv className={styles.grid}>
-            {events.length == 0 ? <p>Loading...</p> : days}
+            {days}
         </FadeInDiv>
     )
 }

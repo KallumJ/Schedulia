@@ -18,6 +18,7 @@ export default function Schedule() {
         const year = currentDate.getFullYear();
 
         setCurrentDate(new Date(year, month));
+        setEvents([])
     }
 
     const decrementMonth = () => {
@@ -25,6 +26,7 @@ export default function Schedule() {
         const year = currentDate.getFullYear();
 
         setCurrentDate(new Date(year, month));
+        setEvents([])
     }
 
     const getEvents = async () => {
