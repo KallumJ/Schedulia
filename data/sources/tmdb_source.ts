@@ -1,11 +1,15 @@
 import DateUtils from "../../util/date_utils";
 import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
-import { MovieDb } from "moviedb-promise";
+import { MovieDb, MovieResult } from "moviedb-promise";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
     private static readonly IMAGE_URL: string = "https://image.tmdb.org/t/p/original"
+    private static readonly HIGH_RESULTS_THRESHOLD: number = 100;
+    private static readonly HIGH_POPULARITY_THRESHOLD: number = 30;
+    private static readonly LOW_POPULARITY_THRESHOLD: number = 4;
+    private static readonly VOTE_COUNT_THRESHOLD: number = 3;
 
     getMediaSourceName(): string {
         return "TMDB";
@@ -33,15 +37,15 @@ export default class TMDBSource implements MediaSource {
             if (results != undefined) {
                 results = results.filter(result => result.popularity && result.popularity > TMDBSource.getPopularityThreshold(response.total_results))
                 results.forEach(movie => {
-                    const event: MediaEvent = {
-                        title: movie.title,
-                        description: movie.overview,
-                        releaseDate: movie.release_date,
-                        image: `${TMDBSource.IMAGE_URL}${movie.backdrop_path}`
-                    }
+                    if (TMDBSource.isValidMovie(movie, response.total_results)) {
+                        const event: MediaEvent = {
+                            title: movie.title,
+                            description: movie.overview,
+                            releaseDate: movie.release_date,
+                            image: `${TMDBSource.IMAGE_URL}${movie.backdrop_path}`
+                        }
 
-                    if (event.title != undefined) {
-                        mediaEvents.push(event)
+                        mediaEvents.push(event);
                     }
                 })
             }
@@ -50,6 +54,18 @@ export default class TMDBSource implements MediaSource {
         }
 
         return mediaEvents
+    }
+    static isValidMovie(movie: MovieResult, totalResults: number | undefined) {
+        totalResults = totalResults ? totalResults : 0;
+        const popularityThreshold = totalResults > TMDBSource.HIGH_RESULTS_THRESHOLD ? TMDBSource.HIGH_POPULARITY_THRESHOLD : TMDBSource.LOW_POPULARITY_THRESHOLD;
+
+        if (popularityThreshold == TMDBSource.HIGH_POPULARITY_THRESHOLD) {
+            if (movie.vote_count && movie.vote_count < TMDBSource.VOTE_COUNT_THRESHOLD) {
+                return false;
+            }
+        }
+
+        return movie.popularity && movie.popularity > popularityThreshold;
     }
     static getPopularityThreshold(total_results: number | undefined) {
         if (total_results && total_results > 100) {
