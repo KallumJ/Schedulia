@@ -1,4 +1,3 @@
-import Popup from "reactjs-popup";
 import { MediaEvent } from "../../data/media_event";
 import styles from "../../styles/components/schedule/MediaEventListItem.module.scss";
 import MediaEventCard from "./MediaEventCard";
