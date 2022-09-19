@@ -1,9 +1,8 @@
 import styles from "../../styles/components/schedule/Month.module.scss";
 import DateUtils from "../../util/date_utils";
 import Day from "./Day"
-import styled, { keyframes } from 'styled-components';
-import { fadeIn } from 'react-animations';
-import { MediaEvent } from "../../data/media_event";
+import { MediaEvent } from "../../data/media_event";;
+import { useState } from "react"
 
 interface MonthProps {
     month: Date;
@@ -11,10 +10,6 @@ interface MonthProps {
 }
 
 export default function Month({ month, events }: MonthProps) {
-
-    const fadeAnim = keyframes`${fadeIn}`;
-    const FadeInDiv = styled.div`animation: 0.5s ${fadeAnim};`;
-
     const days = [];
     for (let i = 1; i <= DateUtils.getDaysInMonth(month); i++) {
         const date = new Date(month.getFullYear(), month.getMonth(), i);
@@ -23,8 +18,8 @@ export default function Month({ month, events }: MonthProps) {
     }
 
     return (
-        <FadeInDiv className={styles.grid}>
+        <div className={styles.grid}>
             {days}
-        </FadeInDiv>
+        </div>
     )
 }

@@ -1,0 +1,55 @@
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+.modal_content {
+    border-radius: 15px;
+    background-color: #000000;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    text-align: left;
+}
+
+.modal_header {
+    display: grid;
+    grid-template-columns: 95% 5%;
+    margin: .5em;
+}
+
+.event_title {
+    color: white;
+}
+
+.event_content {
+    background-color: white;
+    padding: 1em;
+}
+
+.event_desc {
+    margin: 1em;
+}
+
+.event_image {
+    height: 50em;
+    width: 100%;
+    object-fit: contain;
+}
