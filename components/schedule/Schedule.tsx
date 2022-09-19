@@ -30,7 +30,7 @@ export default function Schedule() {
     }
 
     const getEvents = async () => {
-        const response = await axios.get(`/api/media_events/${DateUtils.formatDate(currentDate)}`)
+        const response = await axios.get(`/api/media_events?month=${DateUtils.formatDate(currentDate)}`)
         const events: MediaEvent[] = await response.data;
 
         setEvents(events);

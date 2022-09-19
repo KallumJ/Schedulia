@@ -1,7 +1,7 @@
 import DateUtils from "../../util/date_utils";
 import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
-import { MovieDb, MovieResult } from "moviedb-promise";
+import { MovieDb, MovieResponse, MovieResult, ShowResponse } from "moviedb-promise";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
@@ -22,7 +22,6 @@ export default class TMDBSource implements MediaSource {
 
         while (page < totalPages) {
             const params = {
-                "api_key": process.env.TMDB_API_KEY,
                 "with_original_language": "en",
                 "include_adult": false,
                 "primary_release_date.gte": DateUtils.formatDate(month),
@@ -39,10 +38,12 @@ export default class TMDBSource implements MediaSource {
                 results.forEach(movie => {
                     if (TMDBSource.isValidMovie(movie, response.total_results)) {
                         const event: MediaEvent = {
+                            id: movie.id?.toString(),
                             title: movie.title,
                             description: movie.overview,
                             releaseDate: movie.release_date,
-                            image: `${TMDBSource.IMAGE_URL}${movie.backdrop_path}`
+                            image: `${TMDBSource.IMAGE_URL}${movie.backdrop_path}`,
+                            source: this.getMediaSourceName()
                         }
 
                         mediaEvents.push(event);
