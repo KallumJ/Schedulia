@@ -1,7 +1,7 @@
 import DateUtils from "../../util/date_utils";
 import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
-import { MovieDb, MovieResponse, MovieResult, ShowResponse } from "moviedb-promise";
+import { MovieDb, MovieResponse, MovieResult, ShowResponse, TvResult } from "moviedb-promise";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
@@ -9,71 +9,151 @@ export default class TMDBSource implements MediaSource {
     private static readonly HIGH_RESULTS_THRESHOLD: number = 100;
     private static readonly HIGH_POPULARITY_THRESHOLD: number = 30;
     private static readonly LOW_POPULARITY_THRESHOLD: number = 4;
-    private static readonly VOTE_COUNT_THRESHOLD: number = 3;
+    private static readonly VOTE_COUNT_THRESHOLD: number = 1;
 
     getMediaSourceName(): string {
         return "TMDB";
     }
     async getMediaEvents(month: Date): Promise<MediaEvent[]> {
-        const finalDate = new Date(month.getFullYear(), month.getMonth(), DateUtils.getDaysInMonth(month));
-        let page = 1;
-        let totalPages = Number.MAX_VALUE;
         let mediaEvents: MediaEvent[] = [];
+        let movieResults = await this.getMovieResults(month);
+        let tvResults = await this.getTvResults(month);
 
-        while (page < totalPages) {
-            const params = {
-                "with_original_language": "en",
-                "include_adult": false,
-                "primary_release_date.gte": DateUtils.formatDate(month),
-                "primary_release_date.lte": DateUtils.formatDate(finalDate),
-                page
-            }
+        for (let movieResult of movieResults) {
+            mediaEvents.push({
+                id: movieResult.id?.toString(),
+                title: movieResult.title,
+                description: movieResult.overview,
+                releaseDate: movieResult.release_date,
+                image: movieResult.backdrop_path ? `${TMDBSource.IMAGE_URL}${movieResult.backdrop_path}` : undefined,
+                source: this.getMediaSourceName()
+            })
+        }
 
-            const response = await TMDBSource.DB.discoverMovie(params)
-            let results = response.results;
+        for (let tvResult of tvResults) {
 
-            totalPages = response.total_pages || totalPages;
-            if (results != undefined) {
-                results = results.filter(result => result.popularity && result.popularity > TMDBSource.getPopularityThreshold(response.total_results))
-                results.forEach(movie => {
-                    if (TMDBSource.isValidMovie(movie, response.total_results)) {
-                        const event: MediaEvent = {
-                            id: movie.id?.toString(),
-                            title: movie.title,
-                            description: movie.overview,
-                            releaseDate: movie.release_date,
-                            image: movie.backdrop_path ? `${TMDBSource.IMAGE_URL}${movie.backdrop_path}` : undefined,
-                            source: this.getMediaSourceName()
-                        }
-
-                        mediaEvents.push(event);
-                    }
-                })
-            }
-
-            page++;
+            mediaEvents.push({
+                id: tvResult.id?.toString(),
+                title: tvResult.name,
+                description: tvResult.overview,
+                releaseDate: tvResult.first_air_date,
+                image: tvResult.backdrop_path ? `${TMDBSource.IMAGE_URL}${tvResult.backdrop_path}` : undefined,
+                source: this.getMediaSourceName()
+            });
         }
 
         return mediaEvents
     }
-    static isValidMovie(movie: MovieResult, totalResults: number | undefined) {
+
+    async getTvResults(month: Date) {
+        const totalPages = await this.getTvTotalPages(month);
+        const totalResponses = await this.getTvTotalResponses(month);
+
+        const results = []
+        if (totalPages) {
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await this.getTvPage(i, month);
+                if (page) {
+                    for (let show of page) {
+                        if (TMDBSource.isValidMedia(show, totalResponses)) {
+                            results.push(show)
+                        }
+                    }
+                }
+            }
+        }
+
+        return results;
+    }
+
+    async getMovieResults(month: Date) {
+        const totalPages = await this.getMovieTotalPages(month);
+        const totalResponses = await this.getMovieTotalResponses(month);
+
+        const results = []
+        if (totalPages) {
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await this.getMoviePage(i, month);
+                if (page) {
+                    for (let movie of page) {
+                        if (TMDBSource.isValidMedia(movie, totalResponses)) {
+                            results.push(movie)
+                        }
+                    }
+                }
+            }
+        }
+
+        return results;
+    }
+    async getMovieTotalResponses(month: Date) {
+        const response = await TMDBSource.DB.discoverMovie(this.getMovieParams(1, month))
+        return response.total_results;
+    }
+
+    async getTvTotalResponses(month: Date) {
+        const response = await TMDBSource.DB.discoverTv(this.getTVParams(1, month))
+        return response.total_results;
+    }
+
+    async getMovieTotalPages(month: Date) {
+        const response = await TMDBSource.DB.discoverMovie(this.getMovieParams(1, month))
+        return response.total_pages;
+    }
+
+    async getTvTotalPages(month: Date) {
+        const response = await TMDBSource.DB.discoverTv(this.getTVParams(1, month))
+        return response.total_pages;
+    }
+
+    async getMoviePage(pageNum: number, month: Date): Promise<MovieResult[] | undefined> {
+        const response = await TMDBSource.DB.discoverMovie(this.getMovieParams(pageNum, month))
+        return response.results;
+    }
+
+    async getTvPage(pageNum: number, month: Date): Promise<TvResult[] | undefined> {
+        const response = await TMDBSource.DB.discoverTv(this.getTVParams(pageNum, month));
+        return response.results;
+    }
+
+    getTVParams(pageNum: number, month: Date) {
+        const finalDate = new Date(month.getFullYear(), month.getMonth(), DateUtils.getDaysInMonth(month));
+
+        const params = {
+            "with_original_language": "en",
+            "include_adult": false,
+            "first_air_date.gte": DateUtils.formatDate(month),
+            "first_air_date.lte": DateUtils.formatDate(finalDate),
+            "include_null_first_air_dates": false,
+            "page": pageNum
+        }
+
+        return params;
+    }
+
+    getMovieParams(pageNum: number, month: Date) {
+        const finalDate = new Date(month.getFullYear(), month.getMonth(), DateUtils.getDaysInMonth(month));
+
+        const params = {
+            "with_original_language": "en",
+            "include_adult": false,
+            "primary_release_date.gte": DateUtils.formatDate(month),
+            "primary_release_date.lte": DateUtils.formatDate(finalDate),
+            "page": pageNum
+        }
+
+        return params;
+    }
+    static isValidMedia(media: MovieResult | TvResult, totalResults: number | undefined) {
         totalResults = totalResults ? totalResults : 0;
         const popularityThreshold = totalResults > TMDBSource.HIGH_RESULTS_THRESHOLD ? TMDBSource.HIGH_POPULARITY_THRESHOLD : TMDBSource.LOW_POPULARITY_THRESHOLD;
 
         if (popularityThreshold == TMDBSource.HIGH_POPULARITY_THRESHOLD) {
-            if (movie.vote_count && movie.vote_count < TMDBSource.VOTE_COUNT_THRESHOLD) {
+            if (media.vote_count && media.vote_count < TMDBSource.VOTE_COUNT_THRESHOLD) {
                 return false;
             }
         }
 
-        return movie.popularity && movie.popularity > popularityThreshold;
+        return media.popularity && media.popularity > popularityThreshold;
     }
-    static getPopularityThreshold(total_results: number | undefined) {
-        if (total_results && total_results > 100) {
-            return 30;
-        } else {
-            return 4;
-        }
-    }
-
 }
