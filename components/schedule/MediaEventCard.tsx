@@ -19,7 +19,7 @@ export default function MediaEventCard({ event, showCard, setShowCard }: MediaEv
                 </div>
                 <div className={styles.event_content}>
                     <p className={styles.event_desc}>{event.description}</p>
-                    <img className={styles.event_image} src={event.image} alt={`Image of ${event.title}`} />
+                    {event.image ? <img className={styles.event_image} src={event.image} alt={`Image of ${event.title}`} /> : <></>}
                 </div>
             </div>
         </div>

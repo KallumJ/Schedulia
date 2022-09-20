@@ -42,7 +42,7 @@ export default class TMDBSource implements MediaSource {
                             title: movie.title,
                             description: movie.overview,
                             releaseDate: movie.release_date,
-                            image: `${TMDBSource.IMAGE_URL}${movie.backdrop_path}`,
+                            image: movie.backdrop_path ? `${TMDBSource.IMAGE_URL}${movie.backdrop_path}` : undefined,
                             source: this.getMediaSourceName()
                         }
 
