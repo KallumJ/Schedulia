@@ -1,7 +1,7 @@
 import DateUtils from "../../util/date_utils";
 import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
-import { MovieDb, MovieResponse, MovieResult, ShowResponse, TvResult } from "moviedb-promise";
+import { MovieDb, MovieResult, TvResult } from "moviedb-promise";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
