@@ -24,4 +24,8 @@ export default class DateUtils {
     public static formatDate(date: Date): string {
         return date.toLocaleDateString('en-CA');
     }
+
+    public static getFinalDateInMonth(month: Date) {
+        return new Date(month.getFullYear(), month.getMonth(), DateUtils.getDaysInMonth(month));
+    }
 }

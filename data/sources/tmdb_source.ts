@@ -117,7 +117,7 @@ export default class TMDBSource implements MediaSource {
     }
 
     getTVParams(pageNum: number, month: Date) {
-        const finalDate = new Date(month.getFullYear(), month.getMonth(), DateUtils.getDaysInMonth(month));
+        const finalDate = DateUtils.getFinalDateInMonth(month);
 
         const params = {
             "with_original_language": "en",
@@ -132,7 +132,7 @@ export default class TMDBSource implements MediaSource {
     }
 
     getMovieParams(pageNum: number, month: Date) {
-        const finalDate = new Date(month.getFullYear(), month.getMonth(), DateUtils.getDaysInMonth(month));
+        const finalDate = DateUtils.getFinalDateInMonth(month);
 
         const params = {
             "with_original_language": "en",
