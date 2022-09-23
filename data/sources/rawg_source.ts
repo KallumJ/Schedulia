@@ -2,6 +2,7 @@ import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
 import axios, { AxiosResponse } from "axios";
 import DateUtils from "../../util/date_utils";
+import { MediaType } from "../media_type";
 
 export default class RawgSource implements MediaSource {
     private static readonly BASE_URL: string = "https://api.rawg.io/api";
@@ -34,6 +35,7 @@ export default class RawgSource implements MediaSource {
                 description: await this.getGameDescription(game.id),
                 image: game.background_image,
                 source: this.getMediaSourceName(),
+                mediaType: MediaType.VIDEO_GAME
             })
         }
 

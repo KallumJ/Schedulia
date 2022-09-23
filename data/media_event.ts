@@ -1,3 +1,5 @@
+import { MediaType } from "./media_type.js"
+
 export interface MediaEvent {
     id?: string
     title?: string,
@@ -5,4 +7,5 @@ export interface MediaEvent {
     description?: string,
     image?: string,
     source: string,
+    mediaType: MediaType
 }

@@ -1,9 +1,30 @@
 .event {
-    background-color: lightblue;
+    display: grid;
+    grid-template-columns: 9fr 1fr;
     padding: .25em;
     margin: .25em;
 }
 
-.event:hover {
+.red {
+    background-color: lightcoral;
+}
+
+.red:hover {
+    background-color: salmon;
+}
+
+.blue {
+    background-color: lightblue;
+}
+
+.blue:hover {
     background-color: lightskyblue;
+}
+
+.green {
+    background-color: lightgreen;
+}
+
+.green:hover {
+    background-color: palegreen;
 }

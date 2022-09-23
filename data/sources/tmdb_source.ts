@@ -2,6 +2,7 @@ import DateUtils from "../../util/date_utils";
 import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
 import { MovieDb, MovieResult, TvResult } from "moviedb-promise";
+import { MediaType } from "../media_type";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
@@ -26,7 +27,8 @@ export default class TMDBSource implements MediaSource {
                 description: movieResult.overview,
                 releaseDate: movieResult.release_date,
                 image: movieResult.backdrop_path ? `${TMDBSource.IMAGE_URL}${movieResult.backdrop_path}` : undefined,
-                source: this.getMediaSourceName()
+                source: this.getMediaSourceName(),
+                mediaType: MediaType.MOVIE
             })
         }
 
@@ -38,7 +40,8 @@ export default class TMDBSource implements MediaSource {
                 description: tvResult.overview,
                 releaseDate: tvResult.first_air_date,
                 image: tvResult.backdrop_path ? `${TMDBSource.IMAGE_URL}${tvResult.backdrop_path}` : undefined,
-                source: this.getMediaSourceName()
+                source: this.getMediaSourceName(),
+                mediaType: MediaType.TV_SHOW
             });
         }
 
