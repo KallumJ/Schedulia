@@ -1,10 +1,12 @@
 import TMDBSource from "./tmdb_source";
 import { MediaSource } from "./media_source.js";
 import { MediaEvent } from "../media_event.js";
+import RawgSource from "./rawg_source";
 
 export default class MediaSources {
     private static readonly SOURCES: MediaSource[] = [
-        new TMDBSource()
+        new TMDBSource(),
+        new RawgSource()
     ]
 
     public static async getMediaEvents(month: Date) {
