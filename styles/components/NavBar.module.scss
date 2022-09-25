@@ -4,8 +4,17 @@
     padding: 2rem;
 
     background-color: black;
+}
 
-    * {
-        color: white;
-    }
+.header {
+    margin-right: 2em;
+}
+
+.link {
+    display: inline-block;
+    color: white;
+}
+
+.link:hover {
+    color: lightgray;
 }
