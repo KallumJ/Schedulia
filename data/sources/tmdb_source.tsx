@@ -12,6 +12,7 @@ export default class TMDBSource implements MediaSource {
     private static readonly HIGH_POPULARITY_THRESHOLD: number = 30;
     private static readonly LOW_POPULARITY_THRESHOLD: number = 4;
     private static readonly VOTE_COUNT_THRESHOLD: number = 1;
+    private static readonly LEARN_MORE_LINK: string = "https://www.themoviedb.org/"
 
     getMediaSourceName(): string {
         return "TMDB";
@@ -27,19 +28,21 @@ export default class TMDBSource implements MediaSource {
         let tvResults = await this.getTvResults(month);
 
         for (let movieResult of movieResults) {
+            const id = movieResult.id?.toString()
             mediaEvents.push({
-                id: movieResult.id?.toString(),
+                id: id,
                 title: movieResult.title,
                 description: movieResult.overview,
                 releaseDate: movieResult.release_date,
                 image: movieResult.backdrop_path ? `${TMDBSource.IMAGE_URL}${movieResult.backdrop_path}` : undefined,
                 source: this.getMediaSourceName(),
-                mediaType: MediaType.MOVIE
+                mediaType: MediaType.MOVIE,
+                pageLink: `${TMDBSource.LEARN_MORE_LINK}/movie/${id}`
             })
         }
 
         for (let tvResult of tvResults) {
-
+            const id = tvResult.id?.toString()
             mediaEvents.push({
                 id: tvResult.id?.toString(),
                 title: tvResult.name,
@@ -47,7 +50,8 @@ export default class TMDBSource implements MediaSource {
                 releaseDate: tvResult.first_air_date,
                 image: tvResult.backdrop_path ? `${TMDBSource.IMAGE_URL}${tvResult.backdrop_path}` : undefined,
                 source: this.getMediaSourceName(),
-                mediaType: MediaType.TV_SHOW
+                mediaType: MediaType.TV_SHOW,
+                pageLink: `${TMDBSource.LEARN_MORE_LINK}/tv/${id}`
             });
         }
 

@@ -47,6 +47,7 @@ export default function MediaEventCard({ event, showCard, setShowCard }: MediaEv
                             {event.releaseDate ? <><h4>Release Date</h4><p>{DateUtils.formatDate(new Date(event.releaseDate))}</p></> : <></>}
                             <h4>Source of Data</h4>
                             {dataSource}
+                            <a href={event.pageLink} target="_blank"><p className={styles.learnLink}>Learn More</p></a>
                         </div>
                     </div>
                 </div>

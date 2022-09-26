@@ -9,6 +9,7 @@ export default class RawgSource implements MediaSource {
     private static readonly BASE_URL: string = "https://api.rawg.io/api";
     private static readonly GAMES_ENDPOINT: string = `${this.BASE_URL}/games`
     private static readonly RATINGS_THRESHOLD: number = 2;
+    private static readonly LEARN_MORE_URL: string = "https://rawg.io/games/";
 
     getMediaSourceName(): string {
         return "RAWG";
@@ -41,7 +42,8 @@ export default class RawgSource implements MediaSource {
                 description: await this.getGameDescription(game.id),
                 image: game.background_image,
                 source: this.getMediaSourceName(),
-                mediaType: MediaType.VIDEO_GAME
+                mediaType: MediaType.VIDEO_GAME,
+                pageLink: `${RawgSource.LEARN_MORE_URL}/${game.id}`
             })
         }
 
