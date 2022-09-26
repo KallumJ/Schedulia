@@ -3,6 +3,24 @@
     grid-template-columns: repeat(7, 1fr);
 }
 
+.gridHeader {
+    display: contents;
+
+    label {
+        position: sticky;
+        top: 0;
+        background-color: whitesmoke;
+        border: 1px lightgray solid;
+        text-align: center;
+        padding: .5em;
+        font-weight: 500;
+    }
+}
+
+.gridContent {
+    display: contents;
+}
+
 @media (max-width: 70em) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
