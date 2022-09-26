@@ -33,6 +33,12 @@
     display: grid;
     grid-template-columns: 95% 5%;
     margin: .5em;
+
+    span {
+        * {
+            display: inline;
+        }
+    }
 }
 
 .event_title {
@@ -44,12 +50,33 @@
     padding: 1em;
 }
 
-.event_desc {
-    margin: 1em;
-}
 
 .event_image {
-    height: 50em;
     width: 100%;
     object-fit: contain;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.event_info {
+    * {
+        margin: 0 1em .5em 1em;
+    }
+
+    p {
+        letter-spacing: .5px;
+    }
+
+    a {
+        margin-left: -0.05em;
+    }
+}
+
+.icon {
+    color: white;
+    margin-left: 1em;
+    padding-top: .2em;
 }

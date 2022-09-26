@@ -3,6 +3,7 @@ import { MediaEvent } from "../media_event.js";
 import { MediaSource } from "./media_source.js";
 import { MovieDb, MovieResult, TvResult } from "moviedb-promise";
 import { MediaType } from "../media_type";
+import Image from "next/image";
 
 export default class TMDBSource implements MediaSource {
     private static readonly DB: MovieDb = new MovieDb(process.env.TMDB_API_KEY || "")
@@ -14,6 +15,11 @@ export default class TMDBSource implements MediaSource {
 
     getMediaSourceName(): string {
         return "TMDB";
+    }
+    getMediaSourceElement(): JSX.Element {
+        return <div>
+            <a href="https://www.themoviedb.org/" target="_blank"><Image src="/logos/tmdb_logo.svg" width="100" height="100" /></a>
+        </div>;
     }
     async getMediaEvents(month: Date): Promise<MediaEvent[]> {
         let mediaEvents: MediaEvent[] = [];

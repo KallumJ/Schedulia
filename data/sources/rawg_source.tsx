@@ -3,6 +3,7 @@ import { MediaSource } from "./media_source.js";
 import axios, { AxiosResponse } from "axios";
 import DateUtils from "../../util/date_utils";
 import { MediaType } from "../media_type";
+import Image from "next/image.js";
 
 export default class RawgSource implements MediaSource {
     private static readonly BASE_URL: string = "https://api.rawg.io/api";
@@ -11,6 +12,11 @@ export default class RawgSource implements MediaSource {
 
     getMediaSourceName(): string {
         return "RAWG";
+    }
+    getMediaSourceElement(): JSX.Element {
+        return <div>
+            <a href="https://rawg.io/" target="_blank"><Image src="/logos/rawg_logo.png" width="100" height="100" /></a>
+        </div>;
     }
     async getMediaEvents(month: Date): Promise<MediaEvent[]> {
         let mediaEvents: MediaEvent[] = [];

@@ -4,7 +4,7 @@ import { MediaEvent } from "../media_event.js";
 import RawgSource from "./rawg_source";
 
 export default class MediaSources {
-    private static readonly SOURCES: MediaSource[] = [
+    public static readonly SOURCES: MediaSource[] = [
         new TMDBSource(),
         new RawgSource()
     ]
@@ -17,5 +17,13 @@ export default class MediaSources {
             events = events.concat(sourceEvents)
         }
         return events;
+    }
+
+    public static getElementForSource(sourceStr: string) {
+        for (let source of MediaSources.SOURCES) {
+            if (source.getMediaSourceName() === sourceStr) {
+                return source.getMediaSourceElement();
+            }
+        }
     }
 }
