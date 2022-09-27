@@ -1,4 +1,7 @@
 export default class DateUtils {
+    static getDayName(day: Date): string {
+        return day.toLocaleDateString("en-GB", { weekday: "long" })
+    }
     static isValidDateString(date: string) {
         return new Date(date).toString() !== 'Invalid Date';
     }

@@ -25,7 +25,7 @@ export default function Month({ month, events }: MonthProps) {
     return (
         <div className={styles.grid}>
             <div className={styles.gridHeader}>
-                {firstSevenDays.map(day => <label>{day.toLocaleDateString("en-GB", { weekday: "long" })}</label>)}
+                {firstSevenDays.map(day => <label key={day.getDate()}>{DateUtils.getDayName(day)}</label>)}
             </div>
             <div className={styles.gridContent}>
                 {daysElements}
