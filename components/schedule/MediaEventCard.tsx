@@ -5,6 +5,7 @@ import { MediaType } from '../../data/media_type'
 import styles from "../../styles/components/schedule/MediaEventCard.module.scss"
 import DateUtils from '../../util/date_utils'
 import MediaSources from "../../data/sources/media_sources"
+import { MdClose } from "react-icons/md"
 
 interface MediaEventCardProps {
     event: MediaEvent,
@@ -36,7 +37,7 @@ export default function MediaEventCard({ event, showCard, setShowCard }: MediaEv
                         <h1 className={styles.event_title}>{event.title}</h1>
                         {icon}
                     </span>
-                    <button onClick={() => { setShowCard(!showCard) }}>Close</button>
+                    <a><p className={styles.closeModalLink} onClick={() => { setShowCard(!showCard) }}>Close X</p></a>
                 </div>
                 <div className={styles.event_content}>
                     <div className={styles.grid}>

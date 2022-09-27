@@ -85,3 +85,14 @@
     color: blue;
     text-decoration: underline;
 }
+
+.closeModalLink {
+    color: white;
+    text-decoration: underline;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.closeModalLink:hover {
+    color: lightgray;
+}
