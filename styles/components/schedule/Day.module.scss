@@ -8,12 +8,13 @@
 
     .day_number {
         color: rgb(107, 107, 107);
-        padding: .5em;
-        margin: .5em;
-
-        border-radius: 50%;
-        width: 9%;
-        height: 17%;
+        margin: 1em;
         display: inline-block;
+    }
+
+    .day_number_container {
+        padding-top: .4em;
+        padding-bottom: .5em;
+        border-radius: 100%;
     }
 }
