@@ -1,6 +1,6 @@
-# Schedula ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+# Schedula ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
-A web app for making viewing upcoming media (movies, tv and video games) simple!
+A web app for making viewing upcoming media (movies, tv and video games) simple, built using the Next.js React framework!
 
 ![Image of site](https://i.imgur.com/k6zeo29.png)
 
